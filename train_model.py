@@ -1,30 +1,20 @@
-import os
-import random
-import numpy as np
 import torch
 import torch.nn as nn
-from torchvision import datasets, transforms, models
-from torch.utils.data import DataLoader
+from torchvision import models
 from sklearn.metrics import accuracy_score
+
+from dataset_utils import BATCH_SIZE, DATA_DIR, get_dataloaders, set_seed
 
 # ---------------------------
 # 1. Reproducibility
 # ---------------------------
-def set_seed(seed=42):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-
 set_seed(42)
 
 # ---------------------------
 # 2. Config
 # ---------------------------
-DATA_DIR = "/Users/mtejeshx37/Analysis-of-rice-pad/Rice_Dataset_Split"
 MODEL_SAVE_PATH = "best_resnet50_rice.pth"
 
-BATCH_SIZE = 16
 EPOCHS = 25
 LR = 1e-4
 NUM_CLASSES = 20
@@ -39,50 +29,12 @@ DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 print("Using device:", DEVICE)
 
 # ---------------------------
-# 3. Image Transforms
-# ---------------------------
-train_transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.RandomHorizontalFlip(),
-    transforms.RandomRotation(15),
-    transforms.ColorJitter(brightness=0.2, contrast=0.2),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )
-])
-
-val_test_transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )
-])
-
-# ---------------------------
 # 4. Datasets & Loaders
 # ---------------------------
-train_dataset = datasets.ImageFolder(
-    root=os.path.join(DATA_DIR, "train"),
-    transform=train_transform
+train_dataset, val_dataset, test_dataset, train_loader, val_loader, test_loader = get_dataloaders(
+    batch_size=BATCH_SIZE,
+    data_dir=DATA_DIR
 )
-
-val_dataset = datasets.ImageFolder(
-    root=os.path.join(DATA_DIR, "val"),
-    transform=val_test_transform
-)
-
-test_dataset = datasets.ImageFolder(
-    root=os.path.join(DATA_DIR, "test"),
-    transform=val_test_transform
-)
-
-train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
-test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 print("Classes:", train_dataset.classes)
 print(f"Train/Val/Test batches per epoch: {len(train_loader)}/{len(val_loader)}/{len(test_loader)}")

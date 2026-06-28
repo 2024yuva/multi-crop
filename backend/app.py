@@ -14,9 +14,9 @@ import sys
 # ---------------------------
 # Path Setup
 # ---------------------------
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-if ROOT_DIR.endswith("backend"):
-    ROOT_DIR = os.path.dirname(ROOT_DIR)
+# ROOT_DIR = Analysis-of-rice-pad (the project root)
+# Works whether run from root (`python backend/app.py`) or from backend/ (`python app.py`)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.append(ROOT_DIR)
 
@@ -28,7 +28,11 @@ except ImportError:
 # ---------------------------
 # Flask App Configuration
 # ---------------------------
-app = Flask(__name__, template_folder='../../templates', static_folder='../../static')
+app = Flask(
+    __name__,
+    template_folder=os.path.join(ROOT_DIR, 'templates'),
+    static_folder=os.path.join(ROOT_DIR, 'static')
+)
 app.config['SECRET_KEY'] = 'rice-disease-detection-secret-key-2026'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(ROOT_DIR, 'rice_app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -222,4 +226,4 @@ def predict():
         return jsonify({'error': 'Prediction failure. Could not process image.'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="127.0.0.1", port=5000, debug=True)
