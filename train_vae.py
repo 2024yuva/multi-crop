@@ -11,7 +11,7 @@ import numpy as np
 import torch
 from torchvision.utils import save_image
 
-from config import BATCH_SIZE, CHECKPOINT_DIR, DEVICE, LEARNING_RATE, NUM_EPOCHS, SEED
+from config import BATCH_SIZE, DEVICE, LEARNING_RATE, MODEL_DIR, NUM_EPOCHS, SEED
 from dataset import get_dataloaders
 from vae import VAE, vae_loss
 
@@ -19,7 +19,7 @@ from vae import VAE, vae_loss
 VAE_EPOCHS = min(NUM_EPOCHS, 5)
 PREVIEW_SAMPLES = 4
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-CHECKPOINT_ROOT = PROJECT_ROOT / "checkpoints"
+MODEL_ROOT = Path(MODEL_DIR)
 FALLBACK_OUTPUT_ROOT = PROJECT_ROOT / "vae_outputs"
 LOG_EVERY = 100
 
@@ -32,17 +32,17 @@ def set_seed(seed=SEED):
 
 
 def get_output_root():
-    CHECKPOINT_ROOT.mkdir(parents=True, exist_ok=True)
-    probe_path = CHECKPOINT_ROOT / ".write_test"
+    MODEL_ROOT.mkdir(parents=True, exist_ok=True)
+    probe_path = MODEL_ROOT / ".write_test"
 
     try:
         probe_path.write_text("ok", encoding="ascii")
         probe_path.unlink()
-        return CHECKPOINT_ROOT
+        return MODEL_ROOT
     except OSError:
         FALLBACK_OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
         print(
-            f"Checkpoint directory is not writable from Python; using fallback output directory: "
+            f"Model directory is not writable from Python; using fallback output directory: "
             f"{FALLBACK_OUTPUT_ROOT}",
             flush=True,
         )

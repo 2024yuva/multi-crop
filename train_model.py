@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import models
 from sklearn.metrics import accuracy_score
+from pathlib import Path
 
 from dataset_utils import BATCH_SIZE, DATA_DIR, get_dataloaders, set_seed
 
@@ -13,7 +14,10 @@ set_seed(42)
 # ---------------------------
 # 2. Config
 # ---------------------------
-MODEL_SAVE_PATH = "best_resnet50_rice.pth"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints"
+CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+MODEL_SAVE_PATH = CHECKPOINT_DIR / "best_resnet50_rice.pth"
 
 EPOCHS = 25
 LR = 1e-4

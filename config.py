@@ -77,11 +77,13 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 SEED = 42
 
 # =====================================================
-# MODEL SAVE PATH
+# MODEL SAVE PATHS
 # =====================================================
 
+MODEL_DIR = os.path.join(BASE_DIR, "src", "model")
 CHECKPOINT_DIR = os.path.join(BASE_DIR, "checkpoints")
 
+os.makedirs(MODEL_DIR, exist_ok=True)
 os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
 MODEL_NAME = "vae_vit_baseline.pth"

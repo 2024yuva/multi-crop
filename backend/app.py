@@ -84,7 +84,7 @@ with app.app_context():
 # PyTorch Model Setup
 # ---------------------------
 NUM_CLASSES = 20
-MODEL_PATH = os.path.join(ROOT_DIR, "model", "best_resnet50_rice.pth")
+MODEL_PATH = os.path.join(os.path.dirname(ROOT_DIR), "checkpoints", "best_resnet50_rice.pth")
 
 CLASS_NAMES = [
     'Bacterial Blight', 'Bacterial Leaf Blight', 'Bacterial Streak', 'Bakanae',
