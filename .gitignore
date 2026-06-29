@@ -1,27 +1,23 @@
-.venv/
-.venv_fixed/
-.agents/
-.src_git_backup/
-.git_empty_backup/
-
-**/__pycache__/
+# Python
+__pycache__/
 *.py[cod]
+*$py.class
 
-checkpoints/*
-!checkpoints/.gitkeep
+# Models (Large files)
+*.h5
+*.keras
+*.SavedModel
 
-data/*
-!data/.gitkeep
+# Datasets
+Rice_Dataset/
+Rice_Dataset_Split/
+data/
+datasets/
+*.zip
 
-data_split/*
-!data_split/.gitkeep
-
-vae_outputs/*
-!vae_outputs/.gitkeep
-
-src/model/*
-!src/model/.gitkeep
-
-src/.venv/
-src/.git/
-src/__pycache__/
+# Environment
+.env
+.venv
+env/
+venv/
+.DS_Store
