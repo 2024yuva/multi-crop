@@ -1,0 +1,16 @@
+{
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "src/.venv",
+    ".venv",
+    ".venv_fixed"
+  ],
+  "extraPaths": [
+    "src"
+  ],
+  "venvPath": ".",
+  "venv": ".venv_fixed"
+}
