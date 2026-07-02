@@ -1,0 +1,38 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Models (Large files)
+*.h5
+*.keras
+*.SavedModel
+checkpoints/
+vae_outputs/
+src/__pycache__/
+
+# Datasets
+Rice_Dataset/
+Rice_Dataset_Split/
+data/
+datasets/
+*.zip
+
+# Generated app and evaluation artifacts
+rice_app.db
+evaluation_results.csv
+confusion_matrix.csv
+
+# Environment
+.env
+.venv
+env/
+venv/
+.DS_Store
+.vscode/
+
+# Local PR/worktree scratch copies
+_pr_clone/
+.pr_worktree/
+.agents/
